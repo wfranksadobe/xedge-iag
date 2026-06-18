@@ -1,4 +1,6 @@
-export default function decorate(block) {
+import { decorateBlock, loadBlock } from '../../scripts/aem.js';
+
+export default async function decorate(block) {
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-${cols.length}-cols`);
 
@@ -15,4 +17,15 @@ export default function decorate(block) {
       }
     });
   });
+
+  // Decorate and load any nested blocks authored inside a column
+  // (e.g. a Feature block embedded within the columns block).
+  const KNOWN_NESTED = ['feature', 'teaser', 'banner', 'cards', 'quote'];
+  const nestedBlocks = KNOWN_NESTED
+    .flatMap((name) => [...block.querySelectorAll(`.${name}`)])
+    .filter((el) => !el.dataset.blockStatus);
+  await Promise.all(nestedBlocks.map(async (nested) => {
+    decorateBlock(nested);
+    await loadBlock(nested);
+  }));
 }

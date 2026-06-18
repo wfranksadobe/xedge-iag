@@ -9,11 +9,13 @@
     "id": "section",
     "components": [
       "accordion",
+      "banner",
       "button",
       "cards",
       "carousel",
       "columns",
       "embed",
+      "feature",
       "fragment",
       "form",
       "hero",
@@ -22,8 +24,9 @@
       "search",
       "tabs",
       "table",
+      "teaser",
       "text",
-      "title", 
+      "title",
       "video"
     ]
   },
@@ -57,7 +60,8 @@
       "text",
       "image",
       "button",
-      "title"
+      "title",
+      "feature"
     ]
   },
   {

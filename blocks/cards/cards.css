@@ -1,27 +1,78 @@
-.cards > ul {
+/* Cards block — re-styled for IAG "Latest news" listing */
+
+main .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
 }
 
-.cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+main .cards > ul > li {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 0;
+  overflow: hidden;
 }
 
-.cards .cards-card-body {
-  margin: 16px;
-}
-
-.cards .cards-card-image {
+main .cards .cards-card-image {
   line-height: 0;
+  margin-bottom: 16px;
 }
 
-.cards > ul > li img {
+main .cards > ul > li img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  border-radius: 4px;
+}
+
+main .cards .cards-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--iag-nav-font, "Source Sans Pro"), sans-serif;
+}
+
+/* Date / category lines (authored as plain paragraphs above the heading) */
+main .cards .cards-card-body p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--iag-ink, #121212);
+}
+
+/* News headline */
+main .cards .cards-card-body h3 {
+  margin: 4px 0 0;
+  font-family: var(--iag-heading-serif, "Source Serif 4"), georgia, serif;
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: var(--iag-search-purple, #592c82);
+}
+
+main .cards .cards-card-body h3 a {
+  color: var(--iag-search-purple, #592c82);
+  text-decoration: none;
+}
+
+main .cards .cards-card-body h3 a:hover {
+  text-decoration: underline;
+}
+
+@media (width >= 600px) and (width < 900px) {
+  main .cards > ul {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (width < 600px) {
+  main .cards > ul {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }

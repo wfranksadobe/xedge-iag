@@ -1,0 +1,103 @@
+/* Teaser block — image + content side by side, position selectable, optional bg colour */
+
+main .teaser {
+  --teaser-bg: transparent;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 48px;
+  padding: 48px 120px;
+  background-color: var(--teaser-bg);
+}
+
+main .teaser .teaser-media {
+  margin: 0;
+}
+
+main .teaser .teaser-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+main .teaser .teaser-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+main .teaser .teaser-title {
+  font-family: var(--iag-heading-serif, "Source Serif 4"), georgia, serif;
+  font-size: 32px;
+  line-height: 1.3;
+  font-weight: 400;
+  color: var(--iag-search-purple, #592c82);
+  margin: 0;
+}
+
+main .teaser .teaser-text {
+  font-family: var(--iag-nav-font, "Source Sans Pro"), sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--iag-ink, #121212);
+  margin: 0;
+}
+
+main .teaser .teaser-text p {
+  margin: 0 0 12px;
+}
+
+main .teaser a.teaser-cta.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  background-color: var(--iag-search-purple, #592c82);
+  color: #fff;
+  border: 1px solid var(--iag-search-purple, #592c82);
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-family: var(--iag-nav-font, "Source Sans Pro"), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .teaser a.teaser-cta.button:hover {
+  background-color: transparent;
+  color: var(--iag-search-purple, #592c82);
+}
+
+/* Author-set DARK background → white text + inverted CTA */
+main .teaser.teaser-bg-dark .teaser-title,
+main .teaser.teaser-bg-dark .teaser-text {
+  color: #fff;
+}
+
+main .teaser.teaser-bg-dark a.teaser-cta.button {
+  background-color: #fff;
+  color: var(--teaser-bg);
+  border-color: #fff;
+}
+
+@media (width < 900px) {
+  main .teaser,
+  main .teaser.teaser-image-left,
+  main .teaser.teaser-image-right {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 16px;
+  }
+
+  /* On mobile the image always stacks above the content regardless of position */
+  main .teaser.teaser-image-right .teaser-media {
+    order: -1;
+  }
+
+  main .teaser .teaser-title {
+    font-size: 26px;
+  }
+}
