@@ -18,6 +18,7 @@ export default function decorate(block) {
   const textCell = cell(4);
   const ctaLinkCell = cell(5);
   const ctaTextCell = cell(6);
+  const ctaStyleCell = cell(7);
 
   const content = document.createElement('div');
   content.className = 'banner-content';
@@ -41,13 +42,14 @@ export default function decorate(block) {
     content.append(text);
   }
 
-  // CTA — combine link href with cta text label
+  // CTA — combine link href with cta text label; render as button or link
   const ctaAnchor = ctaLinkCell ? ctaLinkCell.querySelector('a') : null;
   const ctaHref = ctaAnchor ? ctaAnchor.getAttribute('href') : (ctaLinkCell?.textContent.trim() || '');
   const ctaLabel = ctaTextCell ? ctaTextCell.textContent.trim() : '';
+  const ctaStyle = (ctaStyleCell?.textContent.trim().toLowerCase()) === 'link' ? 'link' : 'button';
   if (ctaHref && ctaLabel) {
     const cta = document.createElement('a');
-    cta.className = 'banner-cta button';
+    cta.className = ctaStyle === 'link' ? 'banner-cta banner-cta-link' : 'banner-cta button';
     cta.href = ctaHref;
     cta.textContent = ctaLabel;
     content.append(cta);

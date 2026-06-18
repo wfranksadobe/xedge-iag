@@ -5,7 +5,7 @@ main .banner {
   display: flex;
   align-items: center;
   min-height: 420px;
-  padding: 48px 120px;
+  padding-block: 48px;
   overflow: hidden;
   background-color: var(--iag-purple, #4b286d);
   color: #fff;
@@ -15,6 +15,16 @@ main .banner {
   max-width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
+
+  /* Inner padding centres content to the page content width so the text/CTA
+     left edge aligns with the rest of the page (e.g. "Latest news"). */
+  padding-inline: max(24px, calc(50vw - 600px));
+}
+
+@media (width >= 900px) {
+  main .banner {
+    padding-inline: max(32px, calc(50vw - 600px));
+  }
 }
 
 main .banner .banner-bg {
@@ -64,7 +74,7 @@ main .banner .banner-text p {
   margin: 0 0 12px;
 }
 
-main .banner .banner-cta,
+/* Button style CTA — white pill */
 main .banner a.banner-cta.button {
   display: inline-block;
   background-color: #fff;
@@ -84,10 +94,40 @@ main .banner a.banner-cta.button:hover {
   color: #fff;
 }
 
+/* Link style CTA — white text link with trailing arrow, no pill */
+main .banner a.banner-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: #fff;
+  font-family: var(--iag-nav-font, "Source Sans Pro"), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .banner a.banner-cta-link::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+main .banner a.banner-cta-link:hover {
+  text-decoration: underline;
+}
+
 @media (width < 900px) {
   main .banner {
     min-height: 320px;
-    padding: 32px 16px;
+    padding-block: 32px;
+    padding-inline: 16px;
   }
 
   main .banner .banner-title {

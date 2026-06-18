@@ -65,15 +65,25 @@
         },
         {
           "component": "aem-content",
-          "name": "cta",
+          "name": "cta_link",
           "label": "CTA Link",
           "description": "Link to a URL or another AEM page"
         },
         {
           "component": "text",
           "valueType": "string",
-          "name": "ctaText",
+          "name": "cta_linkText",
           "label": "CTA Text"
+        },
+        {
+          "component": "select",
+          "name": "cta_linkStyle",
+          "label": "CTA Style",
+          "value": "button",
+          "options": [
+            { "name": "Button", "value": "button" },
+            { "name": "Link", "value": "link" }
+          ]
         }
       ]
     }
