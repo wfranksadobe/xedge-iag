@@ -9,6 +9,12 @@ main .banner {
   overflow: hidden;
   background-color: var(--iag-purple, #4b286d);
   color: #fff;
+
+  /* Full-bleed: break out of the section's max-width / padding wrapper */
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
 main .banner .banner-bg {
