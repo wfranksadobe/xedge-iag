@@ -3,6 +3,7 @@
 main .teaser {
   --teaser-bg: transparent;
 
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -11,20 +12,23 @@ main .teaser {
   background-color: var(--teaser-bg);
 }
 
-/* When an author sets a background colour, the band stretches the full page
-   width while the content stays aligned to the page content width. */
+/* When an author sets a background colour, paint a full-bleed band behind the
+   teaser using a pseudo-element. The teaser itself keeps its normal (page
+   content width) size, so the inner image + text columns are identical to a
+   teaser without a background. */
 main .teaser.teaser-has-bg {
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  padding-inline: max(24px, calc(50vw - 600px));
+  background-color: transparent;
 }
 
-@media (width >= 900px) {
-  main .teaser.teaser-has-bg {
-    padding-inline: max(32px, calc(50vw - 600px));
-  }
+main .teaser.teaser-has-bg::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  background-color: var(--teaser-bg);
 }
 
 main .teaser .teaser-media {

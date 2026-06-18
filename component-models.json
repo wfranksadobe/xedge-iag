@@ -166,16 +166,16 @@
       {
         "component": "reference",
         "valueType": "string",
-        "name": "backgroundImage",
-        "label": "Background Image",
+        "name": "image",
+        "label": "Image",
         "description": "Reference to an image asset in AEM Assets",
         "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "backgroundImageAlt",
-        "label": "Background Image Alt Text",
+        "name": "imageAlt",
+        "label": "Image Alt Text",
         "value": ""
       },
       {
@@ -219,38 +219,30 @@
       {
         "component": "richtext",
         "valueType": "string",
-        "name": "text",
+        "name": "body_text",
         "label": "Text",
         "description": "Optional supporting text",
         "value": ""
       },
       {
         "component": "aem-content",
-        "name": "cta_link",
+        "name": "body_cta",
         "label": "CTA Link",
         "description": "Link to a URL or another AEM page"
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "cta_linkText",
+        "name": "body_ctaText",
         "label": "CTA Text"
       },
       {
-        "component": "select",
-        "name": "cta_linkStyle",
-        "label": "CTA Style",
-        "value": "button",
-        "options": [
-          {
-            "name": "Button",
-            "value": "button"
-          },
-          {
-            "name": "Link",
-            "value": "link"
-          }
-        ]
+        "component": "text",
+        "valueType": "string",
+        "name": "backgroundColour",
+        "label": "Background Colour",
+        "description": "Optional HEX colour code (e.g. #4B286D) for the banner background",
+        "value": ""
       }
     ]
   },
@@ -457,23 +449,75 @@
       {
         "component": "reference",
         "valueType": "string",
-        "name": "image",
-        "label": "Image",
+        "name": "backgroundImage",
+        "label": "Background Image",
+        "description": "Reference to an image asset in AEM Assets",
         "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "imageAlt",
-        "label": "Alt",
+        "name": "backgroundImageAlt",
+        "label": "Background Image Alt Text",
         "value": ""
       },
       {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Title"
+      },
+      {
+        "component": "select",
+        "name": "titleType",
+        "label": "Title Type",
+        "value": "h1",
+        "options": [
+          {
+            "name": "h1",
+            "value": "h1"
+          },
+          {
+            "name": "h2",
+            "value": "h2"
+          },
+          {
+            "name": "h3",
+            "value": "h3"
+          },
+          {
+            "name": "h4",
+            "value": "h4"
+          },
+          {
+            "name": "h5",
+            "value": "h5"
+          },
+          {
+            "name": "h6",
+            "value": "h6"
+          }
+        ]
+      },
+      {
         "component": "richtext",
-        "name": "text",
-        "value": "",
+        "valueType": "string",
+        "name": "body_text",
         "label": "Text",
-        "valueType": "string"
+        "description": "Optional supporting text",
+        "value": ""
+      },
+      {
+        "component": "aem-content",
+        "name": "body_cta",
+        "label": "CTA Link",
+        "description": "Link to a URL or another AEM page"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "body_ctaText",
+        "label": "CTA Text"
       }
     ]
   },

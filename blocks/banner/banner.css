@@ -1,13 +1,14 @@
-/* Banner block — full-width hero with background image, title, optional text, CTA */
+/* Banner block — content + square image, optional full-bleed background colour */
 
 main .banner {
-  position: relative;
-  display: flex;
+  --banner-bg: var(--iag-purple, #4b286d);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  min-height: 420px;
-  padding-block: 48px;
-  overflow: hidden;
-  background-color: var(--iag-purple, #4b286d);
+  gap: 64px;
+  padding-block: 0;
+  background-color: var(--banner-bg);
   color: #fff;
 
   /* Full-bleed: break out of the section's max-width / padding wrapper */
@@ -16,41 +17,17 @@ main .banner {
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
 
-  /* Inner padding centres content to the page content width so the text/CTA
-     left edge aligns with the rest of the page (e.g. "Latest news"). */
+  /* Content padding aligns the left edge to the page content width */
   padding-inline: max(24px, calc(50vw - 600px));
 }
 
-@media (width >= 900px) {
-  main .banner {
-    padding-inline: max(32px, calc(50vw - 600px));
-  }
-}
-
-main .banner .banner-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-main .banner .banner-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Purple wash so white text stays legible over imagery */
-main .banner .banner-bg::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgb(75 40 109 / 85%) 0%, rgb(75 40 109 / 45%) 100%);
+/* When no author background colour, keep the brand purple default */
+main .banner.banner-has-bg {
+  background-color: var(--banner-bg);
 }
 
 main .banner .banner-content {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
+  padding-block: 48px;
 }
 
 main .banner .banner-title {
@@ -74,28 +51,8 @@ main .banner .banner-text p {
   margin: 0 0 12px;
 }
 
-/* Button style CTA — white pill */
-main .banner a.banner-cta.button {
-  display: inline-block;
-  background-color: #fff;
-  color: var(--iag-search-purple, #592c82);
-  border: 1px solid #fff;
-  border-radius: 8px;
-  padding: 8px 24px;
-  font-family: var(--iag-nav-font, "Source Sans Pro"), sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  margin: 0;
-}
-
-main .banner a.banner-cta.button:hover {
-  background-color: transparent;
-  color: #fff;
-}
-
-/* Link style CTA — white text link with trailing arrow, no pill */
-main .banner a.banner-cta-link {
+/* CTA — text link with trailing arrow (matches source) */
+main .banner a.banner-cta {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -110,7 +67,7 @@ main .banner a.banner-cta-link {
   text-decoration: none;
 }
 
-main .banner a.banner-cta-link::after {
+main .banner a.banner-cta::after {
   content: "";
   width: 18px;
   height: 18px;
@@ -119,22 +76,56 @@ main .banner a.banner-cta-link::after {
   background-position: center;
 }
 
-main .banner a.banner-cta-link:hover {
+main .banner a.banner-cta:hover {
   text-decoration: underline;
 }
 
+/* Square image, flush to the band edge on the right */
+main .banner .banner-media {
+  align-self: stretch;
+  margin: 0;
+}
+
+main .banner .banner-media picture,
+main .banner .banner-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+/* On a light author background, flip text to dark + dark CTA arrow */
+main .banner.banner-has-bg:not(.banner-bg-dark) .banner-title,
+main .banner.banner-has-bg:not(.banner-bg-dark) .banner-text,
+main .banner.banner-has-bg:not(.banner-bg-dark) a.banner-cta {
+  color: var(--iag-purple-deep, #351a4e);
+}
+
+main .banner.banner-has-bg:not(.banner-bg-dark) a.banner-cta::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23351a4e" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
+}
+
 @media (width < 900px) {
-  main .banner {
-    min-height: 320px;
-    padding-block: 32px;
+  main .banner,
+  main .banner.banner-has-bg {
+    grid-template-columns: 1fr;
+    gap: 0;
     padding-inline: 16px;
+  }
+
+  main .banner .banner-content {
+    padding-block: 32px;
   }
 
   main .banner .banner-title {
     font-size: 30px;
   }
 
-  main .banner .banner-bg::after {
-    background: linear-gradient(180deg, rgb(75 40 109 / 80%) 0%, rgb(75 40 109 / 60%) 100%);
+  /* Image stacks below content on mobile, breaking out to full width */
+  main .banner .banner-media {
+    width: 100vw;
+    margin-left: -16px;
+    margin-right: -16px;
   }
 }
