@@ -144,6 +144,10 @@ header nav .nav-megamenu-col {
   border-right: 1px solid #e6e1ec;
 }
 
+header nav .nav-megamenu-col + .nav-megamenu-col {
+  padding-left: 30px;
+}
+
 header nav .nav-megamenu-col:last-child {
   border-right: 0;
 }
