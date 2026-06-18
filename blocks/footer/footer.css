@@ -1,20 +1,253 @@
+/* IAG footer — purple band, white text, serif column headings. Scoped to footer block. */
+
+:root {
+  --iag-footer-purple: #592c82;
+  --iag-footer-divider: #95928c;
+  --iag-footer-heading-font: "Source Serif 4", georgia, "Times New Roman", serif;
+  --iag-footer-body-font: "Source Sans Pro", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: var(--iag-footer-purple);
+  color: #fff;
+  font-family: var(--iag-footer-body-font);
+  font-size: 16px;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer-inner {
+  max-width: 1290px;
+  margin: 0 auto;
+  padding: 48px 120px;
 }
 
-footer .footer p {
+footer a,
+footer a:any-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Acknowledgement */
+footer .footer-acknowledgement {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 24px;
+  align-items: start;
+}
+
+footer .footer-ack-art {
+  grid-row: 1 / span 2;
   margin: 0;
 }
 
-@media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+footer .footer-ack-art img {
+  width: 73px;
+  height: 73px;
+  display: block;
+}
+
+footer .footer-ack-heading {
+  margin: 0 0 8px;
+  font-weight: 700;
+  color: #fff;
+}
+
+footer .footer-ack-body {
+  margin: 0;
+  line-height: 24px;
+  color: #fff;
+  max-width: 1000px;
+}
+
+/* Divider between acknowledgement and columns, and before legal bar */
+footer .footer-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 24px;
+  border-top: 1px solid var(--iag-footer-divider);
+  margin-top: 32px;
+  padding-top: 48px;
+}
+
+footer .footer-col h3 {
+  font-family: var(--iag-footer-heading-font);
+  font-size: 24px;
+  font-weight: 400;
+  color: #fff;
+  margin: 0 0 24px;
+}
+
+/* Source's 4th column (Contact us / Connect / LinkedIn) has no visible heading;
+   hide it but keep the row height so the CTA aligns with the other columns' first links */
+footer .footer-col:last-child h3 {
+  visibility: hidden;
+}
+
+footer .footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-col li {
+  margin: 0 0 12px;
+}
+
+footer .footer-col a {
+  line-height: 24px;
+}
+
+/* Contact us CTA — outlined white pill */
+footer .footer-col .footer-cta {
+  display: inline-block;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  padding: 4px 24px;
+  color: #fff;
+}
+
+footer .footer-col .footer-cta:hover {
+  background-color: #fff;
+  color: var(--iag-footer-purple);
+  text-decoration: none;
+}
+
+/* Connect with us + LinkedIn */
+footer .footer-col p {
+  margin: 24px 0 12px;
+  color: #fff;
+}
+
+footer .footer-social-icon {
+  display: inline-flex;
+}
+
+footer .footer-social-icon img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+footer .footer-social-icon:hover {
+  opacity: 0.8;
+}
+
+/* Legal bar */
+footer .footer-legal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid var(--iag-footer-divider);
+  margin-top: 48px;
+  padding-top: 24px;
+}
+
+footer .footer-copyright {
+  margin: 0;
+  color: #fff;
+}
+
+footer .footer-legal-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+footer .footer-legal-links li {
+  margin: 0;
+}
+
+/* Accordion toggle button — desktop: invisible passthrough (heading text shows as-is) */
+footer .footer-accordion-toggle {
+  display: contents;
+  appearance: none;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: text;
+  text-align: left;
+}
+
+footer .footer-accordion-chevron {
+  display: none;
+}
+
+/* ---------- Mobile / tablet (< 900px) ---------- */
+@media (width < 900px) {
+  footer .footer-inner {
+    padding: 32px 16px;
+  }
+
+  footer .footer-columns {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 16px;
+  }
+
+  /* Link-group columns become accordions */
+  footer .footer-col-accordion {
+    border-bottom: 1px solid var(--iag-footer-divider);
+  }
+
+  footer .footer-col-accordion h3 {
+    margin: 0;
+  }
+
+  footer .footer-accordion-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 0;
+    cursor: pointer;
+  }
+
+  footer .footer-accordion-chevron {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    margin-top: -4px;
+  }
+
+  footer .footer-col-accordion.open .footer-accordion-chevron {
+    transform: rotate(-135deg);
+    margin-top: 2px;
+  }
+
+  /* Collapse link lists by default; show when open */
+  footer .footer-col-accordion ul {
+    display: none;
+    padding-bottom: 16px;
+  }
+
+  footer .footer-col-accordion.open ul {
+    display: block;
+  }
+
+  /* Contact column stays fully visible (no accordion) */
+  footer .footer-col-contact {
+    padding-top: 24px;
+  }
+
+  footer .footer-legal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  footer .footer-legal-links {
+    flex-direction: column;
+    gap: 12px;
   }
 }

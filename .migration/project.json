@@ -1,0 +1,12 @@
+{
+  "previewOrg": "wfranksadobe",
+  "previewSite": "xedge-iag",
+  "type": "xwalk",
+  "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json",
+  "contentHostUrl": "author-p154716-e1630108.adobeaemcloud.com",
+  "baseUrl": "https://www.iag.com.au/",
+  "aemSitePath": "/content/xedge-iag",
+  "aemAssetsFolderPath": "/content/dam/xedge-iag",
+  "aemSiteName": "xedge-iag",
+  "aemSiteTitle": "xedge-iag"
+}
