@@ -11,6 +11,38 @@ main .feature {
   box-sizing: border-box;
 }
 
+/* Layout: features authored as sibling blocks in one section. EDS wraps each
+   block in a .feature-wrapper and tags the section .feature-container. A single
+   feature is centred at its standard width; two sit side by side. */
+main .section.feature-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+main .section.feature-container > .feature-wrapper {
+  /* override the generic `main > .section > div` constraints */
+  max-width: none;
+  margin: 0;
+  padding: 0;
+
+  /* no grow: a lone feature keeps its standard (~half) width and centres;
+     two features each take half and fill the row */
+  flex: 0 1 calc(50% - 12px);
+  min-width: 0;
+  display: flex;
+}
+
+main .section.feature-container > .feature-wrapper > .feature {
+  width: 100%;
+}
+
 main .feature .feature-content {
   display: flex;
   flex-direction: column;
@@ -107,6 +139,16 @@ main .feature.feature-bg-dark a.feature-cta-secondary.button:hover {
 }
 
 @media (width < 900px) {
+  /* Features stack full-width on mobile */
+  main .section.feature-container {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+
+  main .section.feature-container > .feature-wrapper {
+    flex: 1 1 100%;
+  }
+
   main .feature {
     padding: 24px 16px;
   }
