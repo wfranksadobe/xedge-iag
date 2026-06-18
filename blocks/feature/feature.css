@@ -3,15 +3,20 @@
 main .feature {
   --feature-bg: transparent;
 
+  display: flex;
+  min-height: 295px; /* standard feature height (measured from source) */
   padding: 32px;
   background-color: var(--feature-bg);
   border-radius: 8px;
+  box-sizing: border-box;
 }
 
 main .feature .feature-content {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 16px;
+  width: 100%;
 }
 
 main .feature .feature-title {
