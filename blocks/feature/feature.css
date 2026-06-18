@@ -69,15 +69,19 @@ main .feature a.feature-cta-primary.button:hover {
   color: var(--iag-search-purple, #592c82);
 }
 
+/* Secondary CTA — outlined button (transparent fill + purple border) */
 main .feature a.feature-cta-secondary.button {
+  display: inline-block;
   color: var(--iag-search-purple, #592c82);
-  background: none;
-  border: 0;
-  padding: 8px 0;
+  background-color: transparent;
+  border: 1px solid var(--iag-search-purple, #592c82);
+  border-radius: 8px;
+  padding: 8px 24px;
 }
 
 main .feature a.feature-cta-secondary.button:hover {
-  text-decoration: underline;
+  background-color: var(--iag-search-purple, #592c82);
+  color: #fff;
 }
 
 /* When an author sets a DARK background colour, flip text to white for contrast */
@@ -94,6 +98,12 @@ main .feature.feature-bg-dark a.feature-cta-primary.button {
 
 main .feature.feature-bg-dark a.feature-cta-secondary.button {
   color: #fff;
+  border-color: #fff;
+}
+
+main .feature.feature-bg-dark a.feature-cta-secondary.button:hover {
+  background-color: #fff;
+  color: var(--feature-bg);
 }
 
 @media (width < 900px) {

@@ -264,3 +264,20 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+/* Default-content text placed directly within a section gets the IAG
+   announcement background (matches source inline-alert banner). */
+main .section > .default-content-wrapper {
+  background-color: #fcf7ff;
+  padding: 16px 24px;
+  text-align: center;
+}
+
+main .section > .default-content-wrapper p {
+  margin: 0;
+}
+
+main .section > .default-content-wrapper a:any-link {
+  color: var(--iag-purple-deep, #351a4e);
+  text-decoration: underline;
+}
