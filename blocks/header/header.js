@@ -27,17 +27,31 @@ function closeAllPanels(nav, exception) {
   });
 }
 
-/** Build one top-level nav item with its mega-menu panel from a heading group. */
-function buildNavItem(h2, groups) {
+/** Get the leading text label of an <li> (its text before any nested <ul>). */
+function leadingLabel(li) {
+  return [...li.childNodes]
+    .filter((n) => n.nodeType === Node.TEXT_NODE
+      || (n.nodeType === Node.ELEMENT_NODE && n.tagName !== 'UL' && n.tagName !== 'A'))
+    .map((n) => n.textContent)
+    .join(' ')
+    .trim();
+}
+
+/**
+ * Build one top-level nav item with its mega-menu panel.
+ * `topLi` is a top-level <li>: a leading <a> (item link) + a nested <ul> of group <li>s.
+ * Each group <li> has a text label + a nested <ul> of links.
+ */
+function buildNavItem(topLi) {
   const item = document.createElement('div');
   item.className = 'nav-item';
-  if (groups.length) item.classList.add('nav-drop');
 
-  const sourceLink = h2.querySelector('a');
-  const label = (sourceLink || h2).textContent.trim();
+  const sourceLink = topLi.querySelector(':scope > a');
+  const label = sourceLink ? sourceLink.textContent.trim() : leadingLabel(topLi);
   const href = sourceLink ? sourceLink.getAttribute('href') : null;
+  const groupList = topLi.querySelector(':scope > ul');
+  const groups = groupList ? [...groupList.querySelectorAll(':scope > li')] : [];
 
-  // The visible top-level entry: a link + a toggle button (matches source: link + chevron)
   const entry = document.createElement('div');
   entry.className = 'nav-item-entry';
 
@@ -48,6 +62,7 @@ function buildNavItem(h2, groups) {
   entry.append(link);
 
   if (groups.length) {
+    item.classList.add('nav-drop');
     const toggle = document.createElement('button');
     toggle.type = 'button';
     toggle.className = 'nav-item-toggle';
@@ -60,10 +75,14 @@ function buildNavItem(h2, groups) {
     panel.className = 'nav-megamenu';
     const inner = document.createElement('div');
     inner.className = 'nav-megamenu-inner';
-    groups.forEach((g) => {
+    groups.forEach((groupLi) => {
       const col = document.createElement('div');
       col.className = 'nav-megamenu-col';
-      col.append(...g);
+      const heading = document.createElement('h3');
+      heading.textContent = leadingLabel(groupLi);
+      col.append(heading);
+      const links = groupLi.querySelector(':scope > ul');
+      if (links) col.append(links);
       inner.append(col);
     });
     panel.append(inner);
@@ -74,29 +93,11 @@ function buildNavItem(h2, groups) {
   return item;
 }
 
-/** Parse section 2 (flat H2 + H3/UL groups) into structured nav items. */
+/** Parse the nav section (single top-level <ul> of item <li>s) into structured nav items. */
 function parseNavItems(sectionEl) {
-  const items = [];
-  let currentH2 = null;
-  let groups = [];
-  const flush = () => {
-    if (currentH2) items.push(buildNavItem(currentH2, groups));
-    currentH2 = null;
-    groups = [];
-  };
-  [...sectionEl.children].forEach((el) => {
-    if (el.tagName === 'H2') {
-      flush();
-      currentH2 = el;
-    } else if (el.tagName === 'H3') {
-      groups.push([el]);
-    } else if (el.tagName === 'UL') {
-      if (groups.length) groups[groups.length - 1].push(el);
-      else groups.push([el]);
-    }
-  });
-  flush();
-  return items;
+  const topList = sectionEl.querySelector(':scope > ul');
+  if (!topList) return [];
+  return [...topList.querySelectorAll(':scope > li')].map((li) => buildNavItem(li));
 }
 
 /** Build the expandable search form (controls live in JS, never in the fragment). */
@@ -157,11 +158,22 @@ export default async function decorate(block) {
   nav.id = 'nav';
   nav.setAttribute('aria-label', 'Main navigation');
 
-  // Brand (logo)
+  // Brand (logo) — fragment provides a bare <img>; wrap it in the home link.
   const brand = document.createElement('div');
   brand.className = 'nav-brand';
-  const logoLink = brandSection ? brandSection.querySelector('a img') : null;
-  if (logoLink) brand.append(logoLink.closest('a'));
+  const logoImg = brandSection ? brandSection.querySelector('img') : null;
+  if (logoImg) {
+    const existingLink = logoImg.closest('a');
+    if (existingLink) {
+      brand.append(existingLink);
+    } else {
+      const homeLink = document.createElement('a');
+      homeLink.href = '/';
+      homeLink.setAttribute('aria-label', 'IAG home');
+      homeLink.append(logoImg);
+      brand.append(homeLink);
+    }
+  }
 
   // Hamburger (mobile)
   const hamburger = document.createElement('button');
