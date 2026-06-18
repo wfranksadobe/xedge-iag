@@ -1,5 +1,5 @@
 mountpoints:
   /:
-    url: "https://author-p154716-e1630108.adobeaemcloud.com/bin/franklin.delivery/wfranksadobe/xedg-iag/main"
+    url: "https://author-p154716-e1630108.adobeaemcloud.com/bin/franklin.delivery/wfranksadobe/xedge-iag/main"
     type: "markup"
     suffix: ".html"
