@@ -75,22 +75,22 @@
           "value": ""
         },
         {
-          "component": "select",
-          "name": "imageType",
-          "label": "Image Position",
-          "value": "left",
-          "options": [
-            { "name": "Left", "value": "left" },
-            { "name": "Right", "value": "right" }
-          ]
-        },
-        {
           "component": "text",
           "valueType": "string",
           "name": "backgroundColour",
           "label": "Background Colour",
           "description": "Optional HEX colour code (e.g. #F2F0F5) to set the teaser background",
           "value": ""
+        },
+        {
+          "component": "select",
+          "name": "classes",
+          "label": "Image Position",
+          "value": "",
+          "options": [
+            { "name": "Image Left", "value": "" },
+            { "name": "Image Right", "value": "teaser-image-right" }
+          ]
         }
       ]
     }

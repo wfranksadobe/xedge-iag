@@ -1,6 +1,5 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
-const VALID_HEADINGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 const HEX_RE = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
 
 /** Returns true when a HEX colour is dark enough to need light text. */
@@ -17,29 +16,26 @@ function isDark(hex) {
 
 /**
  * Teaser block.
- * Authored fields (in order): title, titleType, text, ctaLink, ctaText,
- * image, imageAlt, imagePosition, backgroundColour.
+ * Collapsed model cells (in order): title (heading level → titleType),
+ * body group (body_text richtext + body_cta link → body_ctaText), image
+ * (img alt → imageAlt), backgroundColour. Image position is a block option
+ * class (`teaser-image-right`).
  */
 export default function decorate(block) {
   const rows = [...block.children];
   const cell = (i) => (rows[i] ? rows[i].querySelector(':scope > div') || rows[i] : null);
 
   const titleCell = cell(0);
-  const titleTypeCell = cell(1);
-  const textCell = cell(2);
-  const ctaLinkCell = cell(3);
-  const ctaTextCell = cell(4);
-  const imageCell = cell(5);
-  const imageAltCell = cell(6);
-  const imagePositionCell = cell(7);
-  const bgColourCell = cell(8);
+  const bodyCell = cell(1);
+  const imageCell = cell(2);
+  const bgColourCell = cell(3);
 
   // Media side
   const media = document.createElement('div');
   media.className = 'teaser-media';
   const srcImg = imageCell ? imageCell.querySelector('img') : null;
   if (srcImg) {
-    const alt = imageAltCell ? imageAltCell.textContent.trim() : (srcImg.getAttribute('alt') || '');
+    const alt = srcImg.getAttribute('alt') || '';
     const picture = createOptimizedPicture(srcImg.src, alt, false, [{ width: '750' }]);
     media.append(picture);
   }
@@ -48,36 +44,46 @@ export default function decorate(block) {
   const content = document.createElement('div');
   content.className = 'teaser-content';
 
-  const titleText = titleCell ? titleCell.textContent.trim() : '';
+  const heading = titleCell ? titleCell.querySelector('h1, h2, h3, h4, h5, h6') : null;
+  const titleText = heading ? heading.textContent.trim() : (titleCell?.textContent.trim() || '');
   if (titleText) {
-    const level = (titleTypeCell?.textContent.trim().toLowerCase()) || 'h2';
-    const tag = VALID_HEADINGS.includes(level) ? level : 'h2';
-    const heading = document.createElement(tag);
-    heading.className = 'teaser-title';
-    heading.textContent = titleText;
-    content.append(heading);
+    const tag = heading ? heading.tagName.toLowerCase() : 'h2';
+    const titleEl = document.createElement(tag);
+    titleEl.className = 'teaser-title';
+    titleEl.textContent = titleText;
+    content.append(titleEl);
   }
 
-  if (textCell && textCell.textContent.trim()) {
-    const text = document.createElement('div');
-    text.className = 'teaser-text';
-    text.append(...textCell.childNodes);
-    content.append(text);
+  // Body group: CTA link is the last anchor; remaining content is the text.
+  const ctaAnchor = bodyCell ? bodyCell.querySelector('a') : null;
+  if (bodyCell) {
+    const textNodes = [...bodyCell.childNodes].filter((n) => {
+      if (ctaAnchor && (n === ctaAnchor || n.contains?.(ctaAnchor))) return false;
+      return true;
+    });
+    const hasText = textNodes.some((n) => (n.textContent || '').trim());
+    if (hasText) {
+      const text = document.createElement('div');
+      text.className = 'teaser-text';
+      text.append(...textNodes);
+      content.append(text);
+    }
   }
 
-  const ctaAnchor = ctaLinkCell ? ctaLinkCell.querySelector('a') : null;
-  const ctaHref = ctaAnchor ? ctaAnchor.getAttribute('href') : (ctaLinkCell?.textContent.trim() || '');
-  const ctaLabel = ctaTextCell ? ctaTextCell.textContent.trim() : '';
-  if (ctaHref && ctaLabel) {
-    const cta = document.createElement('a');
-    cta.className = 'teaser-cta button';
-    cta.href = ctaHref;
-    cta.textContent = ctaLabel;
-    content.append(cta);
+  if (ctaAnchor) {
+    const ctaHref = ctaAnchor.getAttribute('href');
+    const ctaLabel = ctaAnchor.textContent.trim();
+    if (ctaHref && ctaLabel) {
+      const cta = document.createElement('a');
+      cta.className = 'teaser-cta button';
+      cta.href = ctaHref;
+      cta.textContent = ctaLabel;
+      content.append(cta);
+    }
   }
 
-  // Image position controls layout order
-  const position = (imagePositionCell?.textContent.trim().toLowerCase()) === 'right' ? 'right' : 'left';
+  // Image position controls layout order (block option class)
+  const position = block.classList.contains('teaser-image-right') ? 'right' : 'left';
   block.classList.add(`teaser-image-${position}`);
 
   block.textContent = '';
