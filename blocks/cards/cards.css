@@ -14,7 +14,10 @@ main .cards > ul > li {
   flex-direction: column;
   background-color: #fff;
   border: 0;
-  overflow: hidden;
+
+  /* Bottom accent line at the foot of the text area (matches source) */
+  border-bottom: 4px solid var(--iag-search-purple, #592c82);
+  padding-bottom: 16px;
 }
 
 main .cards .cards-card-image {
@@ -42,7 +45,7 @@ main .cards .cards-card-body p {
   margin: 0;
   font-size: 14px;
   line-height: 20px;
-  color: var(--iag-ink, #121212);
+  color: #6e6e6e; /* slightly-off grey */
 }
 
 /* News headline */
